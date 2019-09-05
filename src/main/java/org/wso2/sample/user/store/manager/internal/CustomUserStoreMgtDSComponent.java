@@ -22,26 +22,19 @@ package org.wso2.sample.user.store.manager.internal;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.wso2.carbon.user.api.UserStoreManager;
-import org.wso2.carbon.user.core.service.RealmService;
 import org.wso2.sample.user.store.manager.CustomUserStoreManager;
 
-/**
- * @scr.component name="custom.authenticator.dscomponent" immediate=true
- * @scr.reference name="user.realmservice.default"
- * interface="org.wso2.carbon.user.core.service.RealmService"
- * cardinality="1..1" policy="dynamic" bind="setRealmService"
- * unbind="unsetRealmService"
- */
+@Component(
+        name="CustomUserStoreManagerComponent",
+        immediate = true)
 public class CustomUserStoreMgtDSComponent {
     private static Log log = LogFactory.getLog(CustomUserStoreMgtDSComponent.class);
-    private static RealmService realmService;
 
-    /**
-     * This method will get invoked upon server startup and register the custom user store manager
-     * as an OSGi service.
-     * @param ctxt
-     */
+    @Activate
     protected void activate(ComponentContext ctxt) {
         try {
             CustomUserStoreManager customUserStoreManager = new CustomUserStoreManager();
@@ -52,17 +45,10 @@ public class CustomUserStoreMgtDSComponent {
         }
     }
 
+    @Deactivate
     protected void deactivate(ComponentContext ctxt) {
         if (log.isDebugEnabled()) {
             log.debug("Custom User Store Manager is deactivated ");
         }
-    }
-
-    protected void setRealmService(RealmService rlmService) {
-        realmService = rlmService;
-    }
-
-    protected void unsetRealmService(RealmService realmService) {
-        realmService = null;
     }
 }

@@ -9,7 +9,19 @@
     <packaging>bundle</packaging>
     <groupId>org.wso2.is</groupId>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <org.eclipse.osgi.version>3.7.0.v20110613</org.eclipse.osgi.version>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.user.core</artifactId>
@@ -17,8 +29,28 @@
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.utils</artifactId>
+            <version>4.4.40</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.user.api</artifactId>
             <version>4.4.40</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr.annotations</artifactId>
+            <version>1.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.osgi</groupId>
+            <artifactId>org.eclipse.osgi</artifactId>
+            <version>${org.eclipse.osgi.version}</version>
         </dependency>
     </dependencies>
 
@@ -26,16 +58,12 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
+                <artifactId>maven-resources-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-scr-plugin</artifactId>
-                <version>1.0.10</version>
+                <version>1.21.0</version>
                 <executions>
                     <execution>
                         <id>generate-scr-scrdescriptor</id>
@@ -48,23 +76,20 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>1.4.0</version>
+                <version>3.0.1</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Name>${pom.artifactId}</Bundle-Name>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Private-Package>
                             org.wso2.sample.user.store.manager.internal
                         </Private-Package>
                         <Export-Package>
                             !org.wso2.sample.user.store.manager.internal,
-                            org.wso2.sample.user.store.manager.*,
+                            org.wso2.sample.user.store.manager.*
                         </Export-Package>
                         <Import-Package>
-                            javax.servlet; version=2.4.0,
-                            javax.servlet.http; version=2.4.0,
-                            org.wso2.carbon.base.*,
                             org.wso2.carbon.user.core.*,
                             *;resolution:=optional
                         </Import-Package>
@@ -74,6 +99,7 @@
             </plugin>
         </plugins>
     </build>
+
     <repositories>
         <repository>
             <id>wso2-nexus</id>
@@ -86,5 +112,4 @@
             </releases>
         </repository>
     </repositories>
-
 </project>
